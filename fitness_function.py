@@ -7,6 +7,11 @@ def fitness_function(protein,positions):
     #print b_indexes
     for i in range(len(b_indexes)):
         for k in range(i + 1, len(b_indexes)):
+            #print "i %d" % i
+            #print "k %d" % k
+            #print "b_indexes[k] = %d" % b_indexes[k]
+            #print positions[b_indexes[i]]
+            #print positions[b_indexes[k]]
             diff = ((lambda t1,t2: (t1[0] - t2[0],t1[1] - t2[1])) (positions[b_indexes[i]], positions[b_indexes[k]]))
             if diff in directions.values() and b_indexes[k] - b_indexes[i] > 1:
                 fitness -= 1
