@@ -10,7 +10,6 @@ from operator import itemgetter
 population = []
 
 def evaluate_ind(protein,ind):
-    print ind
     raw_input()
     return fitness_function(protein,ind[0])
     
@@ -21,10 +20,7 @@ def ga(parameters):
     num_gen = parameters["number_generations"]
     #generate the initial population
     population = [(generate_ind(len(parameters["protein"])),0) for i in range(parameters["pop_size"])]
-    print "POPULATION"
-    for ind in population:
-        print ind[0],
-        print " -> %d" % len(ind[0])
+    print population
     #evaluate the quality of the initial population
     population = [(ind[0],evaluate_ind(parameters["protein"],ind)) for ind in population]
     while num_gen:
@@ -52,9 +48,7 @@ def ga(parameters):
         #         population.sort(key=itemgetter(1)) # minimization
         #print population[0][0], population[0][1]      
         
-        num_gen -= 1
-    print "pimbas"
-        
+        num_gen -= 1        
     
 
 def stockastic_universal_selection(population,numb):
@@ -79,7 +73,6 @@ def stockastic_universal_selection(population,numb):
     
 
 def generate_ind(size):
-    print "INDIVIDUO"
     ind = [(0,0)]
     current_size = 1
     directions.values() 
@@ -91,7 +84,6 @@ def generate_ind(size):
     
     
 def create_ind(ind,current_size,total_size):
-    print "current_size = %d total_size %d" % (current_size,total_size)
     if current_size < total_size:    
         available_directions = deepcopy(directions.values())
           
@@ -111,35 +103,6 @@ def create_ind(ind,current_size,total_size):
                 
         
     return ind
-    
-
-
-
-
-#THIS STILL HAS ONE PROBLEM: CICLES :O
-# def generate_ind(size):
-#     print "1"
-#     ind = [(0,0)]
-#     previous_direction = (-1,-1)
-#     for j in range(1,size):
-#         previous_pos = ind[j-1]
-#         while 1:
-#             directions_copy = directions.values()
-#             if(previous_direction != (-1,-1)):
-#                 directions_copy.remove(previous_direction)
-#             raw_input()
-#             new_dir = choice(directions_copy)
-#             new_point = (lambda previous_pos,new_dir: (previous_pos[0] + new_dir[0], previous_pos[1] + new_dir[1])) (previous_pos,new_dir)
-#             #print "new_dir" + str(new_dir)
-#             #print "ind " + str(ind)
-#             #raw_input()
-#             if new_point not in ind:
-#                 previous_direction = new_dir
-#                 ind.append(new_point)
-#                 break
-#     return ind
-    
-    
     
     
 
