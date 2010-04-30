@@ -10,7 +10,6 @@ from operator import itemgetter
 population = []
 
 def evaluate_ind(protein,ind):
-    raw_input()
     return fitness_function(protein,ind[0])
     
 
@@ -23,6 +22,8 @@ def ga(parameters):
     print population
     #evaluate the quality of the initial population
     population = [(ind[0],evaluate_ind(parameters["protein"],ind)) for ind in population]
+    for ind in population:
+        print ind[1]
     while num_gen:
         # #select n_progenitors using the stockastic universal selection
         #         parents = stockastic_universal_selection(population,n_progenitors)
@@ -108,7 +109,7 @@ def create_ind(ind,current_size,total_size):
 
 if __name__ == "__main__":
     parameters = {  "protein" : "BWBWWBBWBWWBWBBWWBWB",
-                    "pop_size" : 10,
+                    "pop_size" : 100,
                     "mut_prob": 0.1,
                     "number_generations" : 2
                  }
