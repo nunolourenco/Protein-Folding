@@ -71,30 +71,34 @@ def stockastic_universal_selection(population,numb):
     
     
 
+def generate_ind():
+    
+
+
 
 
 #THIS STILL HAS ONE PROBLEM: CICLES :O
-def generate_ind(size):
-    print "1"
-    ind = [(0,0)]
-    previous_direction = (-1,-1)
-    for j in range(1,size):
-        previous_pos = ind[j-1]
-        while 1:
-            directions_copy = directions.values()
-            if(previous_direction != (-1,-1)):
-                directions_copy.remove(previous_direction)
-            raw_input()
-            new_dir = choice(directions_copy)
-            new_point = (lambda previous_pos,new_dir: (previous_pos[0] + new_dir[0], previous_pos[1] + new_dir[1])) (previous_pos,new_dir)
-            #print "new_dir" + str(new_dir)
-            #print "ind " + str(ind)
-            #raw_input()
-            if new_point not in ind:
-                previous_direction = new_dir
-                ind.append(new_point)
-                break
-    return ind
+# def generate_ind(size):
+#     print "1"
+#     ind = [(0,0)]
+#     previous_direction = (-1,-1)
+#     for j in range(1,size):
+#         previous_pos = ind[j-1]
+#         while 1:
+#             directions_copy = directions.values()
+#             if(previous_direction != (-1,-1)):
+#                 directions_copy.remove(previous_direction)
+#             raw_input()
+#             new_dir = choice(directions_copy)
+#             new_point = (lambda previous_pos,new_dir: (previous_pos[0] + new_dir[0], previous_pos[1] + new_dir[1])) (previous_pos,new_dir)
+#             #print "new_dir" + str(new_dir)
+#             #print "ind " + str(ind)
+#             #raw_input()
+#             if new_point not in ind:
+#                 previous_direction = new_dir
+#                 ind.append(new_point)
+#                 break
+#     return ind
     
     
     
