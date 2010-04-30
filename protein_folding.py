@@ -19,34 +19,36 @@ def ga(parameters):
     num_gen = parameters["number_generations"]
     #generate the initial population
     population = [(generate_ind(len(parameters["protein"])),0) for i in range(parameters["pop_size"])]
+    print population
     #evaluate the quality of the initial population
     population = [(ind[0],evaluate_ind(parameters["protein"],ind)) for ind in population]
     while num_gen:
-        #select n_progenitors using the stockastic universal selection
-        parents = stockastic_universal_selection(population,n_progenitors)
-        for i in range(n_progenitors + 1):
-			parents.append(population[i])
-        offsprings = []
-        #apply individual mutations
-        for ind in parents:
-            new_ind = ind
-            if random() < parameters["mut_prob"]:
-                new_ind = monte_carlo_mutation(parameters["protein"],ind)
-            offsprings.append(new_ind)
-        
-        #this code is just temporary
-    	if parameters["pop_size"] % 2 == 0:
-    	    population = parents[:-1] + offsprings[:-1]
-    	else:
-    	    population = parents[:] + offsprings[:-1]
-    	
-        #print len(population)
-        #print population
-        population = [(ind[0],evaluate_ind(parameters["protein"],ind)) for ind in population]
-        population.sort(key=itemgetter(1)) # minimization
+        # #select n_progenitors using the stockastic universal selection
+        #         parents = stockastic_universal_selection(population,n_progenitors)
+        #         for i in range(n_progenitors + 1):
+        #           parents.append(population[i])
+        #         offsprings = []
+        #         #apply individual mutations
+        #         for ind in parents:
+        #             new_ind = ind
+        #             if random() < parameters["mut_prob"]:
+        #                 new_ind = monte_carlo_mutation(parameters["protein"],ind)
+        #             offsprings.append(new_ind)
+        #         
+        #         #this code is just temporary
+        #       if parameters["pop_size"] % 2 == 0:
+        #           population = parents[:-1] + offsprings[:-1]
+        #       else:
+        #           population = parents[:] + offsprings[:-1]
+        #       
+        #         #print len(population)
+        #         #print population
+        #         population = [(ind[0],evaluate_ind(parameters["protein"],ind)) for ind in population]
+        #         population.sort(key=itemgetter(1)) # minimization
         print population[0][0], population[0][1]      
         
         num_gen -= 1
+    print "pimbas"
         
     
 
@@ -71,7 +73,30 @@ def stockastic_universal_selection(population,numb):
     
     
 
-def generate_ind():
+def generate_ind(size):
+    ind = [(0,0)]
+    current_size = 1
+    directions.values() 
+    ind = create_ind(ind,current_size,size)
+    return ind
+    
+    
+    
+def create_ind(ind,current_size,total_size):
+    if current_size < total_size:    
+        available_directions = directions.values()
+          
+        while len(available_directions) > 0:
+            next_dir = choice(available_directions)
+            available_directions.remove(next_dir)
+            new_point = (lambda previous_pos,new_dir: (previous_pos[0] + new_dir[0], previous_pos[1] + new_dir[1])) (ind[-1],next_dir)
+            if new_point not in ind:
+                ind.append(new_point)
+                current_size += 1
+                ind = create_ind(ind,current_size,total_size)
+                break
+        
+    return ind
     
 
 
@@ -106,7 +131,7 @@ def generate_ind():
 
 if __name__ == "__main__":
     parameters = {  "protein" : "BWBWWBBWBWWBWBBWWBWB",
-                    "pop_size" : 4,
+                    "pop_size" : 20,
                     "mut_prob": 0.1,
                     "number_generations" : 2
                  }
