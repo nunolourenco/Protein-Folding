@@ -51,7 +51,8 @@ def ga(parameters):
         
         num_gen -= 1        
     
-
+    
+#This function is not working properly
 def stockastic_universal_selection(population,numb):
 	""" Stochastic Universal Sampling."""
 	pop = population[:]
