@@ -16,8 +16,6 @@ def monte_carlo_mutation(protein,ind):
         rotation_to_apply = choice(possible_rotations)
         #inits the conformation_s2 as an empty list
         conformation_s2 = []
-        #print "pivot = %d" %(am_pivot)
-        #print "rotation_to_apply = %d" %(rotation_to_apply)
         for i in range(len(conformation_s1)):
             exists = False
             if i > am_pivot:
