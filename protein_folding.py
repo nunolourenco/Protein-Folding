@@ -15,39 +15,39 @@ def evaluate_ind(protein,ind):
 
 
 def ga(parameters):
-    n_progenitors = parameters["pop_size"] / 2
+    n_progenitors = parameters["pop_size"] / 2 
     num_gen = parameters["number_generations"]
     #generate the initial population
     population = [(generate_ind(len(parameters["protein"])),0) for i in range(parameters["pop_size"])]
-    print population
+    #print population
     #evaluate the quality of the initial population
     population = [(ind[0],evaluate_ind(parameters["protein"],ind)) for ind in population]
-    for ind in population:
-        print ind[1]
+    population.sort(key=itemgetter(1)) # minimization
     while num_gen:
-        # #select n_progenitors using the stockastic universal selection
-        #         parents = stockastic_universal_selection(population,n_progenitors)
-        #         for i in range(n_progenitors + 1):
-        #           parents.append(population[i])
-        #         offsprings = []
-        #         #apply individual mutations
-        #         for ind in parents:
-        #             new_ind = ind
-        #             if random() < parameters["mut_prob"]:
-        #                 new_ind = monte_carlo_mutation(parameters["protein"],ind)
-        #             offsprings.append(new_ind)
-        #         
-        #         #this code is just temporary
-        #       if parameters["pop_size"] % 2 == 0:
-        #           population = parents[:-1] + offsprings[:-1]
-        #       else:
-        #           population = parents[:] + offsprings[:-1]
-        #       
-        #         #print len(population)
-        #         #print population
-        #         population = [(ind[0],evaluate_ind(parameters["protein"],ind)) for ind in population]
-        #         population.sort(key=itemgetter(1)) # minimization
-        #print population[0][0], population[0][1]      
+        #select n_progenitors using the stockastic universal selection
+        parents = stockastic_universal_selection(population,n_progenitors)
+        for i in range(n_progenitors + 1):
+            parents.append(population[i])
+        offsprings = []
+        #apply individual mutations
+        for ind in parents:
+            new_ind = ind
+            if random() < parameters["mut_prob"]:
+                new_ind = monte_carlo_mutation(parameters["protein"],ind)
+            offsprings.append(new_ind)
+
+        #this code is just temporary
+        if parameters["pop_size"] % 2 == 0:
+            population = parents[:-1] + offsprings[:-1]
+        else:
+            population = parents[:] + offsprings[:-1]
+        #print str(len(population))
+        
+        #evaluates and sorts the new population
+        population = [(ind[0],evaluate_ind(parameters["protein"],ind)) for ind in population]
+        population.sort(key=itemgetter(1)) # minimization
+        print len(population)
+        print population[0][0], population[0][1]      
         
         num_gen -= 1        
     
@@ -64,11 +64,11 @@ def stockastic_universal_selection(population,numb):
 	for j in range(numb):
 		val = pointers[j]
 		index = 0
-		total =pop[index][1] / float(total_fitness + 0.00001)
+		total =pop[index][1] / float(total_fitness)
 		while total < val:
 			index += 1
-			total += pop[index][1] / float(total_fitness + 0.00001)
-			mate_pool.append(pop[index])
+			total += pop[index][1] / float(total_fitness)
+		mate_pool.append(pop[index])
 	return mate_pool
     
     
@@ -80,6 +80,7 @@ def generate_ind(size):
     directions.values() 
     ind = create_ind(ind,current_size,size)
     if len(ind) < size:
+        print "There was an error while generating an individual"
         raw_input()
     return ind
     
@@ -111,8 +112,8 @@ def create_ind(ind,current_size,total_size):
 if __name__ == "__main__":
     parameters = {  "protein" : "BWBWWBBWBWWBWBBWWBWB",
                     "pop_size" : 100,
-                    "mut_prob": 0.1,
-                    "number_generations" : 2
+                    "mut_prob": 1,
+                    "number_generations" : 100
                  }
     
     ga(parameters)

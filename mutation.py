@@ -9,12 +9,13 @@ ck = 2
 def monte_carlo_mutation(protein,ind):
     mutation_tries = 0 #defines the number of tries to mutate the indivuidual
     conformation_s1 = ind[0]
-    conformation_s2 = []
     exists = True
     while exists and mutation_tries != 10:
         #defines the am that on wich the rotation will be applied
         am_pivot = choice(range(len(conformation_s1)))
         rotation_to_apply = choice(possible_rotations)
+        #inits the conformation_s2 as an empty list
+        conformation_s2 = []
         #print "pivot = %d" %(am_pivot)
         #print "rotation_to_apply = %d" %(rotation_to_apply)
         for i in range(len(conformation_s1)):
