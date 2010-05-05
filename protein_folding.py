@@ -111,9 +111,9 @@ def create_ind(ind,current_size,total_size):
 
 if __name__ == "__main__":
     parameters = {  "protein" : "BWBWWBBWBWWBWBBWWBWB",
-                    "pop_size" : 100,
+                    "pop_size" : 2,
                     "mut_prob": 1,
-                    "number_generations" : 100
+                    "number_generations" : 1
                  }
     
     ga(parameters)

@@ -1,23 +1,23 @@
 from commons import *
 from fitness_function import *
 
-possible_rotations = [90,180,270]
 ck = 2
 #am stands for amino-acid
 
 #receives
 def monte_carlo_mutation(protein,ind):
+    possible_rotations = [90,180,270]
     mutation_tries = 0 #defines the number of tries to mutate the indivuidual
     conformation_s1 = ind[0]
-    exists = True
-    while exists and mutation_tries != 10:
+    is_invalid = True
+    while is_invalid and mutation_tries != 10:
         #defines the am that on wich the rotation will be applied
         am_pivot = choice(range(len(conformation_s1)))
         rotation_to_apply = choice(possible_rotations)
         #inits the conformation_s2 as an empty list
         conformation_s2 = []
         for i in range(len(conformation_s1)):
-            exists = False
+            is_invalid = False
             if i > am_pivot:
                 #bring to (0,0) to rotate using am_pivot as reference
                 am_to_rotate = (lambda p1,p2: (p1[0] - p2[0], p1[1] - p2[1])) (conformation_s1[i], conformation_s1[am_pivot])
@@ -27,14 +27,14 @@ def monte_carlo_mutation(protein,ind):
                 if new_pos in conformation_s2:
                     #we have to try another rotation
                     mutation_tries += 1
-                    exists = True
+                    is_invalid = True
                     break
                 else:
                     conformation_s2.append(new_pos)
             else:
                 conformation_s2.append(conformation_s1[i])
         
-    if not exists:
+    if not is_invalid:
         new_ind = (conformation_s2,fitness_function(protein,conformation_s2))
         return check_acceptance(new_ind,ind)
     else:
