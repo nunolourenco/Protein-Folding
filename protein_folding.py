@@ -1,6 +1,7 @@
 from commons import *
-from fitness_function import *
-from mutation import *
+from fitness_function import fitness_function
+from mutation import monte_carlo_mutation
+from crossover import crossover
 from copy import deepcopy
 from operator import itemgetter
 
@@ -24,29 +25,31 @@ def ga(parameters):
     population = [(ind[0],evaluate_ind(parameters["protein"],ind)) for ind in population]
     population.sort(key=itemgetter(1)) # minimization
     while num_gen:
+        print  parameters["number_generations"] - num_gen
         #select n_progenitors using the stockastic universal selection
         parents = stockastic_universal_selection(population,n_progenitors)
-        for i in range(n_progenitors + 1):
-            parents.append(population[i])
-        offsprings = []
+        
+        offsprings = [crossover(parameters["protein"],parents) for i in range(n_progenitors)]
+        
+        
         #apply individual mutations
-        for ind in parents:
+        new_population = []
+        for ind in offsprings:
             new_ind = ind
             if random() < parameters["mut_prob"]:
                 new_ind = monte_carlo_mutation(parameters["protein"],ind)
-            offsprings.append(new_ind)
-
-        #this code is just temporary
-        if parameters["pop_size"] % 2 == 0:
-            population = parents[:-1] + offsprings[:-1]
-        else:
-            population = parents[:] + offsprings[:-1]
-        #print str(len(population))
+            new_population.append(new_ind)
+            
+        new_population.sort(key=itemgetter(1))
+        
+        elite_size = int(round((1 - parameters["survivors_perc"]) * parameters["pop_size"]))
+        survivors_size = int(parameters["pop_size"] - elite_size)
+        #population to the next generation
+        population = population[:elite_size] + new_population[:survivors_size]
         
         #evaluates and sorts the new population
         population = [(ind[0],evaluate_ind(parameters["protein"],ind)) for ind in population]
         population.sort(key=itemgetter(1)) # minimization
-        print len(population)
         print population[0][0], population[0][1]      
         
         num_gen -= 1        
@@ -111,9 +114,10 @@ def create_ind(ind,current_size,total_size):
 
 if __name__ == "__main__":
     parameters = {  "protein" : "BWBWWBBWBWWBWBBWWBWB",
-                    "pop_size" : 2,
-                    "mut_prob": 1,
-                    "number_generations" : 1
+                    "pop_size" : 100,
+                    "mut_prob": 0.1,
+                    "number_generations" : 500,
+                    "survivors_perc" : 0.5
                  }
     
     ga(parameters)

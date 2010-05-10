@@ -2,15 +2,17 @@ from commons import *
 from fitness_function import *
 
 ck = 2
+MUTATION_TRIES = 10
 #am stands for amino-acid
 
 #receives
 def monte_carlo_mutation(protein,ind):
+   
     possible_rotations = [90,180,270]
     mutation_tries = 0 #defines the number of tries to mutate the indivuidual
     conformation_s1 = ind[0]
     is_invalid = True
-    while is_invalid and mutation_tries != 10:
+    while is_invalid and mutation_tries != MUTATION_TRIES:
         #defines the am that on wich the rotation will be applied
         am_pivot = choice(range(len(conformation_s1)))
         rotation_to_apply = choice(possible_rotations)
