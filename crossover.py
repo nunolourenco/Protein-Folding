@@ -13,14 +13,11 @@ def crossover(protein,parents):
         parent1 = p1[0]
         parent2 = p2[0]
         offspring = []
-        cut_point = choice(range(len(protein)))
-        cut_point = 13
-        
+        cut_point = choice(range(len(protein)))        
         rotation_to_apply = choice(possible_rotations)
         offspring += parent1[:cut_point+1]
         pivot = offspring[cut_point]
         offspring_tail = remap_parent2_coords(pivot,parent2[cut_point:],rotation_to_apply)
-        print offspring_tail
         if offspring_tail == None:
             is_invalid = True
         else:
