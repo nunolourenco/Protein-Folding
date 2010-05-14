@@ -2,7 +2,6 @@ from commons import *
 from fitness_function import fitness_function
 from mutation import monte_carlo_mutation
 from crossover import crossover
-from copy import deepcopy
 from operator import itemgetter
 
 

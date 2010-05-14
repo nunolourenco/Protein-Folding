@@ -1,5 +1,6 @@
 from random import *
 from math import *
+from copy import deepcopy
 directions = {"U": (0,1),
               "D": (0,-1),
               "R": (1,0),
