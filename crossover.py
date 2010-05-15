@@ -1,5 +1,5 @@
 from mutation import apply_rotation
-from commons import cenas
+from commons import inverted_dir_dict
 from fitness_function import *
 
 
