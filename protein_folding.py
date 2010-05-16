@@ -2,8 +2,8 @@ from commons import *
 from fitness_function import fitness_function
 from mutation import monte_carlo_mutation
 from crossover import crossover
+from pull_move_mutation import pull_moves_mutation
 from operator import itemgetter
-
 
 
 
@@ -36,7 +36,10 @@ def ga(parameters):
         for ind in offsprings:
             new_ind = ind
             if random() < parameters["mut_prob"]:
-                new_ind = monte_carlo_mutation(parameters["protein"],ind)
+                if parameters["mutation_type"] == "pull_moves":
+                    new_ind = pull_moves_mutation(parameters["protein"],ind,parameters["mut_prob"])
+                else:
+                    new_ind = monte_carlo_mutation(parameters["protein"],ind)
             new_population.append(new_ind)
             
         new_population.sort(key=itemgetter(1))
@@ -113,10 +116,11 @@ def create_ind(ind,current_size,total_size):
 
 if __name__ == "__main__":
     parameters = {  "protein" : "BWBWWBBWBWWBWBBWWBWB",
-                    "pop_size" : 100,
-                    "mut_prob": 0.1,
+                    "pop_size" : 200,
+                    "mut_prob": 0.20,
                     "number_generations" : 500,
-                    "survivors_perc" : 0.5
+                    "survivors_perc" : 0.5,
+                    "mutation_type" : "pull_moves"
                  }
     
     ga(parameters)
