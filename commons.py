@@ -1,5 +1,7 @@
 from random import *
 from math import *
+import matplotlib
+from pylab import *
 from copy import deepcopy
 directions = {"U": (0,1),
               "D": (0,-1),

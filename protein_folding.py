@@ -9,12 +9,31 @@ from operator import itemgetter
 
 population = []
 
+
+def display_results(total_statitic,parameters):
+    num_runs = 1
+    results_gen = zip(*total_statitic)
+    best = [min([ind[0] for ind in gen]) for gen in results_gen]
+    averages = [sum([ind[1] for ind in gen])/float(num_runs) for gen in results_gen]
+    # Show
+    ylabel('Fitness')
+    xlabel('Generation')
+    titulo = 'Protein Folding Problem: %d Runs' % num_runs
+    title(titulo)
+    axis= [0,parameters["number_generations"],0,parameters["protein"]]
+    p1 = plot(best,'r-o',label="Best")
+    p2 = plot(averages,'g-s',label="Average")
+    legend(loc=2)
+    show()
+    
+
 def evaluate_ind(protein,ind):
     return fitness_function(protein,ind[0])
     
 
 
 def ga(parameters):
+    statistic = []
     n_progenitors = parameters["pop_size"] / 2 
     num_gen = parameters["number_generations"]
     #generate the initial population
@@ -25,6 +44,15 @@ def ga(parameters):
     population.sort(key=itemgetter(1)) # minimization
     while num_gen:
         print  parameters["number_generations"] - num_gen
+        
+        #calculate the population statistics
+        average_quality = sum([ind[1] for ind in population])/ float(len(population))
+        best_quality = population[0][1]
+        statistic.append((best_quality,average_quality))
+        
+        
+        
+        
         #select n_progenitors using the stockastic universal selection
         parents = stockastic_universal_selection(population,n_progenitors)
         
@@ -55,6 +83,7 @@ def ga(parameters):
         print population[0][0], population[0][1]      
         
         num_gen -= 1        
+    return statistic
     
     
 #This function is not working properly
@@ -122,6 +151,5 @@ if __name__ == "__main__":
                     "survivors_perc" : 0.5,
                     "mutation_type" : "pull_moves"
                  }
-    
-    ga(parameters)
+    display_results([ga(parameters)],parameters)
     
