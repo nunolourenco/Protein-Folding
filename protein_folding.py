@@ -72,7 +72,8 @@ def ga(parameters):
             
         new_population.sort(key=itemgetter(1))
         
-        elite_size = int(round((1 - parameters["survivors_perc"]) * parameters["pop_size"]))
+        elite_size = int(round((parameters["survivors_perc"]) * parameters["pop_size"]))
+        print elite_size
         survivors_size = int(parameters["pop_size"] - elite_size)
         #population to the next generation
         population = population[:elite_size] + new_population[:survivors_size]
@@ -146,10 +147,11 @@ def create_ind(ind,current_size,total_size):
 if __name__ == "__main__":
     parameters = {  "protein" : "BWBWWBBWBWWBWBBWWBWB",
                     "pop_size" : 200,
-                    "mut_prob": 0.20,
+                    "mut_prob": 0.15,
                     "number_generations" : 500,
-                    "survivors_perc" : 0.5,
+                    "survivors_perc" : 0.005,
                     "mutation_type" : "pull_moves"
                  }
     display_results([ga(parameters)],parameters)
-    
+#Protein size 20: BWBWWBBWBWWBWBBWWBWB
+#Protein size 24: BBWWBWWBWWBWWBWWBWWBWWBB
