@@ -145,9 +145,9 @@ def create_ind(ind,current_size,total_size):
     
 
 if __name__ == "__main__":
-    parameters = {  "protein" : "BWBWWBBWBWWBWBBWWBWB",
+    parameters = {  "protein" : "BBWWBWWBWWBWWBWWBWWBWWBB",
                     "pop_size" : 200,
-                    "mut_prob": 0.15,
+                    "mut_prob": 0.05,
                     "number_generations" : 500,
                     "survivors_perc" : 0.005,
                     "mutation_type" : "pull_moves"
