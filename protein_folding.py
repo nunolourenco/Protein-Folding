@@ -10,21 +10,23 @@ from operator import itemgetter
 population = []
 
 
-def display_results(total_statitic,parameters):
-    num_runs = 1
+def display_results(total_statitic,parameters,display=1):
+    num_runs = parameters["num_runs"]
     results_gen = zip(*total_statitic)
     best = [min([ind[0] for ind in gen]) for gen in results_gen]
     averages = [sum([ind[1] for ind in gen])/float(num_runs) for gen in results_gen]
-    # Show
-    ylabel('Fitness')
-    xlabel('Generation')
-    titulo = 'Protein Folding Problem: %d Runs' % num_runs
-    title(titulo)
-    axis= [0,parameters["number_generations"],0,parameters["protein"]]
-    p1 = plot(best,'r-o',label="Best")
-    p2 = plot(averages,'g-s',label="Average")
-    legend(loc=2)
-    show()
+    if display == 1:
+        # Show
+        ylabel('Fitness')
+        xlabel('Generation')
+        titulo = 'Protein Folding Problem: %d Runs' % num_runs
+        title(titulo)
+        axis= [0,parameters["number_generations"],0,parameters["protein"]]
+        p1 = plot(best,'r-o',label="Best")
+        p2 = plot(averages,'g-s',label="Average")
+        legend(loc=2)
+        show()
+    return best
     
 
 def evaluate_ind(protein,ind):
@@ -54,9 +56,12 @@ def ga(parameters):
         
         
         #select n_progenitors using the stockastic universal selection
-        parents = stockastic_universal_selection(population,n_progenitors)
+        if random() < parameters["xover_prob"]:
+            parents = stockastic_universal_selection(population,n_progenitors)
         
-        offsprings = [crossover(parameters["protein"],parents) for i in range(n_progenitors)]
+            offsprings = [crossover(parameters["protein"],parents) for i in range(n_progenitors)]
+        else:
+            offsprings = population
         
         
         #apply individual mutations
@@ -73,7 +78,6 @@ def ga(parameters):
         new_population.sort(key=itemgetter(1))
         
         elite_size = int(round((parameters["survivors_perc"]) * parameters["pop_size"]))
-        print elite_size
         survivors_size = int(parameters["pop_size"] - elite_size)
         #population to the next generation
         population = population[:elite_size] + new_population[:survivors_size]
@@ -145,13 +149,23 @@ def create_ind(ind,current_size,total_size):
     
 
 if __name__ == "__main__":
-    parameters = {  "protein" : "BBWWBWWBWWBWWBWWBWWBWWBB",
+    best_by_runs = []
+    run = 0
+    parameters = {  "protein" : "BWBWWBBWBWWBWBBWWBWB",
                     "pop_size" : 200,
-                    "mut_prob": 0.05,
-                    "number_generations" : 500,
-                    "survivors_perc" : 0.005,
-                    "mutation_type" : "pull_moves"
+                    "mut_prob": 0.06,
+                    "number_generations" : 1,
+                    "survivors_perc" : 0.05,
+                    "mutation_type" : "pull_moves",
+                    "xover_prob" : 0.90,
+                    "num_runs" : 3,
+                    "show_graph" : 0
                  }
-    display_results([ga(parameters)],parameters)
+    while run < parameters["num_runs"]:
+        statistics = [ga(parameters)]
+        best_by_runs.append(min(display_results(statistics,parameters,parameters["show_graph"])))
+        run += 1
+    
+    create_files(best_by_runs,parameters)
 #Protein size 20: BWBWWBBWBWWBWBBWWBWB
 #Protein size 24: BBWWBWWBWWBWWBWWBWWBWWBB
