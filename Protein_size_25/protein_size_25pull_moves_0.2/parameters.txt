@@ -1,0 +1,11 @@
+generate_population : 0
+xover_prob : 0.9
+load_population : 1
+show_graph : 0
+number_generations : 500
+mut_prob : 0.2
+num_runs : 30
+protein : WWBWWBBWWWWBBWWWWBBWWWWBB
+pop_size : 200
+mutation_type : pull_moves
+survivors_perc : 0.05

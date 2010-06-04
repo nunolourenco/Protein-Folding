@@ -1,0 +1,11 @@
+xover_prob : 0.9
+show_graph : 0
+number_generations : 500
+num_runs : 30
+protein : BWBWWBBWBWWBWBBWWBWB
+pop_size : 200
+mutation_type : monte_carlo
+survivors_perc : 0.05
+generate_population : 0
+mut_prob : 0.1
+load_population : 1
